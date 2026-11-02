@@ -1,8 +1,20 @@
-/**
- * Componente reutilizable para la etiqueta de categoría (CategoryBadge.jsx)
- * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #6 (#main-s2-us6)
- * Asignado a: Manuel
- */
+import '../styles/Expenses.css';
+
+
+const CATEGORY_CLASSES = {
+  Alimentos: 'category-badge--alimentos',
+  Transporte: 'category-badge--transporte',
+  Servicios: 'category-badge--servicios',
+  Salud: 'category-badge--salud',
+  Ocio: 'category-badge--ocio',
+};
+
 export default function CategoryBadge({ category }) {
-  return <span className="category-badge">{category || 'Sin categoría'}</span>;
+  const modifier = CATEGORY_CLASSES[category] || '';
+
+  return (
+    <span className={`category-badge ${modifier}`.trim()}>
+      {category || 'Sin categoría'}
+    </span>
+  );
 }
