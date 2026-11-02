@@ -7,7 +7,7 @@ import '../styles/Expenses.css';
  * Pantalla de Detalle de Gasto (ExpenseDetailScreen.jsx)
  * Equivalente a src/screens/ExpenseDetailScreen.js del Sprint 1.
  * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #6 (#main-s2-us6)
- * Asignado a: Manuel
+ * Asignado a: Manuell
  *
  * La URL es la fuente de verdad: el gasto se obtiene a partir del :id de la
  * ruta (/expenses/:id), así que al recargar o compartir el enlace sigue

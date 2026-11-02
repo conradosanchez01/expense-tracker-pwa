@@ -8,7 +8,7 @@ import '../styles/Expenses.css';
  * Pantalla de Listado de Gastos (ExpensesScreen.jsx)
  * Equivalente a src/screens/ExpensesScreen.js del Sprint 1.
  * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #6 (#main-s2-us6)
- * Asignado a: Manuel
+ * Asignado a: Manuell
  */
 export default function ExpensesScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
