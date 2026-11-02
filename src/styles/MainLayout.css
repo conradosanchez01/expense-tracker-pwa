@@ -1,0 +1,95 @@
+/**
+ * Estilos del layout principal y la Bottom Navigation Bar (MainLayout.css)
+ * Corresponde a: User Story #7 (#pwa-s2-us7)
+ * Asignado a: Jerónimo
+ */
+
+/* Reset del esqueleto de Vite para que la app se comporte como app instalada */
+body {
+  display: block;
+  place-items: normal;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* ---------- Layout ---------- */
+.main-layout {
+  --bottom-nav-height: calc(60px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-bg);
+}
+
+/* El contenido deja lugar a la barra fija para que no lo tape */
+.main-layout__content {
+  flex: 1;
+  padding-bottom: var(--bottom-nav-height);
+}
+
+/* Las pantallas ocupan exactamente el alto restante (sin scroll de más) */
+.main-layout__content > main {
+  min-height: calc(100vh - var(--bottom-nav-height));
+  min-height: calc(100dvh - var(--bottom-nav-height));
+}
+
+/* ---------- Bottom Navigation Bar ---------- */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  height: var(--bottom-nav-height);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.bottom-nav__link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 44px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+/* Feedback táctil al presionar (nada depende solo de :hover) */
+.bottom-nav__link:active {
+  background: #ecfdf5;
+}
+
+.bottom-nav__link--active {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  box-shadow: inset 0 3px 0 var(--color-primary);
+}
+
+.bottom-nav__icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.bottom-nav__label {
+  line-height: 1.2;
+}
