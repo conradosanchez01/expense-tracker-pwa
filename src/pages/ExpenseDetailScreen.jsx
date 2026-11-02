@@ -3,6 +3,16 @@ import MOCK_EXPENSES, { formatAmount } from '../data/mockExpenses';
 import CategoryBadge from '../components/CategoryBadge';
 import '../styles/Expenses.css';
 
+/**
+ * Pantalla de Detalle de Gasto (ExpenseDetailScreen.jsx)
+ * Equivalente a src/screens/ExpenseDetailScreen.js del Sprint 1.
+ * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #6 (#main-s2-us6)
+ * Asignado a: Manuel
+ *
+ * La URL es la fuente de verdad: el gasto se obtiene a partir del :id de la
+ * ruta (/expenses/:id), así que al recargar o compartir el enlace sigue
+ * funcionando (deep linking).
+ */
 
 const formatDate = (isoDate) => {
   if (!isoDate) return 'Sin fecha';

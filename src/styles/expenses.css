@@ -129,6 +129,7 @@
 }
 
 /* ---------- CategoryBadge ---------- */
+/* Los colores de fondo y texto se definen en la clase específica de cada categoría. */
 .category-badge {
   display: inline-block;
   padding: 2px 10px;
