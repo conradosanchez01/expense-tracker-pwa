@@ -1,0 +1,166 @@
+/**
+ * Estilos de la Pantalla de Bienvenida (HomeScreen.css)
+ * Equivalente visual a src/screens/HomeScreen.js del Sprint 1.
+ * Corresponde a: User Story #4 (#main-s2-us4)
+ * Asignado a: Benjamín
+ */
+
+#root {
+  width: 100%;
+}
+
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background-color: var(--color-bg, #F4F6F8);
+  padding: 20px;
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  gap: 24px;
+}
+
+.home-screen__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: env(safe-area-inset-top, 0px);
+  margin-bottom: 8px;
+}
+
+.home-screen__title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-primary, #10B981);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.home-screen__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-surface, #FFFFFF);
+  width: 100%;
+  max-width: 480px;
+  padding: 35px 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-screen__subtitle {
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text, #1F2937);
+  text-align: center;
+}
+
+.home-screen__description {
+  margin: 0;
+  font-size: 16px;
+  color: var(--color-text-secondary, #4B5563);
+  text-align: center;
+  line-height: 24px;
+}
+
+.home-screen__summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.home-screen__summary-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface, #FFFFFF);
+  padding: 20px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  gap: 6px;
+}
+
+.home-screen__summary-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary, #4B5563);
+  text-align: center;
+}
+
+.home-screen__summary-value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text, #1F2937);
+  text-align: center;
+}
+
+.home-screen__summary-value--highlight {
+  color: var(--color-primary, #10B981);
+}
+
+.home-screen__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.home-screen__action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
+}
+
+.home-screen__action-btn:active {
+  transform: scale(0.98);
+}
+
+.home-screen__action-btn--primary {
+  background-color: var(--color-primary, #10B981);
+  color: #FFFFFF;
+  border: none;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
+}
+
+.home-screen__action-btn--primary:hover {
+  background-color: var(--color-primary-dark, #059669);
+  color: #FFFFFF;
+}
+
+.home-screen__action-btn--secondary {
+  background-color: var(--color-surface, #FFFFFF);
+  color: var(--color-primary, #10B981);
+  border: 2px solid var(--color-primary, #10B981);
+}
+
+.home-screen__action-btn--secondary:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--color-primary-dark, #059669);
+  border-color: var(--color-primary-dark, #059669);
+}
