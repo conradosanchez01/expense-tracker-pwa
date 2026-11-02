@@ -1,14 +1,23 @@
-/**
- * Componente reutilizable de tarjeta de gasto (ExpenseCard.jsx)
- * Equivalente a src/components/ExpenseItem.js del Sprint 1.
- * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #6 (#main-s2-us6)
- * Asignado a: Manuel
- */
-export default function ExpenseCard({ expense, onClick }) {
+import { Link } from 'react-router-dom';
+import { formatAmount } from '../data/mockExpenses';
+import CategoryBadge from './CategoryBadge';
+import '../styles/Expenses.css';
+
+
+export default function ExpenseCard({ expense }) {
+  if (!expense) return null;
+
   return (
-    <article className="expense-card" onClick={onClick}>
-      <span>{expense?.description || 'Gasto'}</span>
-      <strong>${expense?.amount || 0}</strong>
+    <article className="expense-card">
+      <Link to={`/expenses/${expense.id}`} className="expense-card__link">
+        <div className="expense-card__info">
+          <span className="expense-card__description">{expense.description}</span>
+          <CategoryBadge category={expense.category} />
+        </div>
+        <strong className="expense-card__amount">
+          {formatAmount(expense.amount)}
+        </strong>
+      </Link>
     </article>
   );
 }
