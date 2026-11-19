@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import MOCK_EXPENSES from '../data/mockExpenses';
+import ExpenseCard from '../components/ExpenseCard';
 import NewExpenseModal from '../components/NewExpenseModal';
-import MOCK_EXPENSES, { formatAmount } from '../data/mockExpenses';
+import '../styles/Expenses.css';
 
 /**
  * Pantalla de Listado de Gastos (ExpensesScreen.jsx)
@@ -12,43 +14,34 @@ export default function ExpensesScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <main>
-      <header
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 'calc(16px + env(safe-area-inset-top, 0px)) 16px 12px 16px',
-        }}
-      >
-        <h1 style={{ margin: 0, fontSize: '24px' }}>Mis Gastos</h1>
+    <main className="expenses-screen">
+      <header className="expenses-screen__header">
+        <h1 className="expenses-screen__title">Mis Gastos</h1>
         <button
           type="button"
+          className="btn btn--primary"
           onClick={() => setIsModalOpen(true)}
-          style={{
-            minHeight: '44px',
-            padding: '8px 16px',
-            backgroundColor: 'var(--color-primary, #10B981)',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: '10px',
-            fontWeight: 700,
-            fontSize: '15px',
-            cursor: 'pointer',
-          }}
         >
           + Nuevo
         </button>
       </header>
-      <ul>
-        {MOCK_EXPENSES.map((item) => (
-          <li key={item.id}>
-            {item.description} — {formatAmount(item.amount)} ({item.category})
-          </li>
-        ))}
-      </ul>
 
-      <NewExpenseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {MOCK_EXPENSES.length === 0 ? (
+        <p className="expenses-empty">Todavía no registraste ningún gasto.</p>
+      ) : (
+        <ul className="expenses-list">
+          {MOCK_EXPENSES.map((expense) => (
+            <li key={expense.id}>
+              <ExpenseCard expense={expense} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <NewExpenseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </main>
   );
 }
