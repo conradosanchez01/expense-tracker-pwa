@@ -11,7 +11,7 @@ function App() {
       <InstallBanner />
       <AppRouter />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
