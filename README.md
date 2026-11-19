@@ -50,7 +50,7 @@ Progressive Web App (PWA) para el registro y control de gastos personales desarr
 
 ## 🌐 URL Pública (HTTPS)
 
-- **Aplicación desplegada en Vercel:** [https://expense-tracker-pwa-nine.vercel.app/](https://expense-tracker-pwa-nine.vercel.app/)
+- **Aplicación desplegada en Vercel:** [https://expense-tracker-pwa-pink.vercel.app/](https://expense-tracker-pwa-pink.vercel.app/)
 
 ---
 
