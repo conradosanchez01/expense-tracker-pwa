@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { formatAmount } from '../data/mockExpenses';
 import CategoryBadge from './CategoryBadge';
-import '../styles/Expenses.css';
+import '../styles/expenses.css';
 
 
 export default function ExpenseCard({ expense }) {

@@ -39,3 +39,50 @@ Progressive Web App (PWA) para el registro y control de gastos personales desarr
    npm run dev
    ```
    *(Para abrirla desde el navegador del teléfono en la misma red Wi-Fi: `npm run dev -- --host`).*
+
+5. **Probar el build de producción con Service Worker (modo offline):**
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+---
+
+## 🌐 URL Pública (HTTPS)
+
+- **Aplicación desplegada en Vercel:** [https://expense-tracker-pwa-nine.vercel.app/](https://expense-tracker-pwa-nine.vercel.app/)
+
+---
+
+## 📊 Informe de Lighthouse
+
+Auditoría ejecutada sobre la aplicación publicada en HTTPS (`100` Performance, `94` Accessibility, `100` Best Practices, `91` SEO):
+
+![Informe de Lighthouse](./docs/lighthouse.png.png)
+
+---
+
+## 📱 Capturas Comparativas: Expo Go (Sprint 1) vs PWA Instalada (Sprint 2)
+
+> *Pendiente de adjuntar las capturas finales de la PWA instalada en el teléfono junto a las capturas equivalentes de Expo Go (`ExpenseTracker/src/assets/screenshots/`).*
+
+| Pantalla | Expo Go (Sprint 1 — React Native) | PWA Instalada (Sprint 2 — Web) |
+| :--- | :---: | :---: |
+| **1. Bienvenida (`HomeScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+| **2. Listado (`ExpensesScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+| **3. Nuevo Gasto (`NewExpenseModal`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+| **4. Detalle (`ExpenseDetailScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+| **5. Configuración (`SettingsScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+
+---
+
+## ⚖️ Tabla Comparativa: React Native (Sprint 1) vs PWA (Sprint 2)
+
+| Aspecto | React Native + Expo (Sprint 1) | Progressive Web App (Sprint 2) |
+| :--- | :--- | :--- |
+| **Tecnología base** | React Native `0.88.1` + Expo SDK 58 (`JavaScript`). | React `19` + Vite `6` + `vite-plugin-pwa`. |
+| **Navegación y rutas** | React Navigation v7 (`StackNavigator` + `TabNavigator` con `Ionicons`). | React Router DOM v7 (`BrowserRouter`, `NavLink` en Bottom Nav y `useParams` para deep linking en `/expenses/:id`). |
+| **UI y Layout Mobile** | Componentes nativos (`View`, `Text`, `FlatList`, `TouchableOpacity`, `Switch`) y `StyleSheet`. | HTML semántico (`main`, `header`, `section`, `article`, `ul`/`li`) + CSS Flexbox, `100dvh` y `env(safe-area-inset-*)`. |
+| **Modal de carga** | Pantalla `transparentModal` en el Stack con `Animated` (`NewExpenseModal.js`). | Etiqueta nativa `<dialog>` con `.showModal()`, `createPortal` y `::backdrop` (`NewExpenseModal.jsx`). |
+| **Instalación y distribución** | Mediante Expo Go en desarrollo o compilación nativa para Play Store / App Store. | Acceso directo por URL HTTPS, instalable desde Chrome (`beforeinstallprompt`) o Safari (*Agregar a inicio*) mediante `manifest.json`. |
+| **Funcionamiento offline** | Bundle empaquetado localmente dentro de la app instalada. | Service Worker generado con Workbox (`vite-plugin-pwa`) que pre-cachea HTML, CSS, JS e íconos, con fallback SPA (`vercel.json`). |

@@ -1,4 +1,4 @@
-import '../styles/Expenses.css';
+import '../styles/expenses.css';
 
 
 const CATEGORY_CLASSES = {
