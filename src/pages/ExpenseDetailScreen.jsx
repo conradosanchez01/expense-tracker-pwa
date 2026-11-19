@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import MOCK_EXPENSES, { formatAmount } from '../data/mockExpenses';
 import CategoryBadge from '../components/CategoryBadge';
-import '../styles/Expenses.css';
+import '../styles/expenses.css';
 
 /**
  * Pantalla de Detalle de Gasto (ExpenseDetailScreen.jsx)

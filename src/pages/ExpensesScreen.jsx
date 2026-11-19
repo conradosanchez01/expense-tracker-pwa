@@ -2,7 +2,7 @@ import { useState } from 'react';
 import MOCK_EXPENSES from '../data/mockExpenses';
 import ExpenseCard from '../components/ExpenseCard';
 import NewExpenseModal from '../components/NewExpenseModal';
-import '../styles/Expenses.css';
+import '../styles/expenses.css';
 
 /**
  * Pantalla de Listado de Gastos (ExpensesScreen.jsx)
