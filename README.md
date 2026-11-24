@@ -48,15 +48,51 @@ Progressive Web App (PWA) para el registro y control de gastos personales desarr
 
 ---
 
+## 🗂️ Estructura del Proyecto (US #2 — `#pwa-s2-us2`)
+
+```text
+expense-tracker-pwa/
+├── index.html
+├── vite.config.js
+├── vercel.json
+├── public/
+│   ├── manifest.json
+│   └── icons/
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── components/
+    │   ├── ExpenseCard.jsx
+    │   ├── CategoryBadge.jsx
+    │   ├── NewExpenseModal.jsx
+    │   └── InstallBanner.jsx
+    ├── pages/
+    │   ├── HomeScreen.jsx
+    │   ├── ExpensesScreen.jsx
+    │   ├── ExpenseDetailScreen.jsx
+    │   └── SettingsScreen.jsx
+    ├── router/
+    │   └── AppRouter.jsx
+    ├── layouts/
+    │   └── MainLayout.jsx
+    ├── hooks/
+    │   └── usePWAInstall.js
+    ├── data/
+    │   └── mockExpenses.js
+    └── styles/
+```
+
+---
+
 ## 🌐 URL Pública (HTTPS)
 
 - **Aplicación desplegada en Vercel:** [https://expense-tracker-pwa-pink.vercel.app/](https://expense-tracker-pwa-pink.vercel.app/)
 
 ---
 
-## 📊 Informe de Lighthouse
+## 📊 Informe de Lighthouse y Banner de Instalación
 
-Auditoría ejecutada sobre la aplicación publicada en HTTPS (`100` Performance, `94` Accessibility, `100` Best Practices, `91` SEO):
+Auditoría Mobile ejecutada sobre la aplicación publicada en HTTPS (`68` Rendimiento, `95` Accesibilidad, `96` Prácticas recomendadas, `91` SEO), donde también se observa el `InstallBanner` activo (`beforeinstallprompt`):
 
 ![Informe de Lighthouse](./docs/lighthouse.png.png)
 
@@ -64,15 +100,13 @@ Auditoría ejecutada sobre la aplicación publicada en HTTPS (`100` Performance,
 
 ## 📱 Capturas Comparativas: Expo Go (Sprint 1) vs PWA Instalada (Sprint 2)
 
-> *Pendiente de adjuntar las capturas finales de la PWA instalada en el teléfono junto a las capturas equivalentes de Expo Go (`ExpenseTracker/src/assets/screenshots/`).*
-
 | Pantalla | Expo Go (Sprint 1 — React Native) | PWA Instalada (Sprint 2 — Web) |
 | :--- | :---: | :---: |
-| **1. Bienvenida (`HomeScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
-| **2. Listado (`ExpensesScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
-| **3. Nuevo Gasto (`NewExpenseModal`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
-| **4. Detalle (`ExpenseDetailScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
-| **5. Configuración (`SettingsScreen`)** | *(Ver repo Sprint 1)* | *(Próximamente)* |
+| **1. Bienvenida (`HomeScreen`)** | <img src="./docs/screenshots/01-inicio-expo.jpeg" width="240" alt="Bienvenida Expo Go" /> | <img src="./docs/screenshots/01-inicio-pwa.jpg" width="240" alt="Bienvenida PWA" /> |
+| **2. Listado (`ExpensesScreen`)** | <img src="./docs/screenshots/02-listado-gastos-expo.jpeg" width="240" alt="Listado Expo Go" /> | <img src="./docs/screenshots/02-listado-gastos-pwa.jpg" width="240" alt="Listado PWA" /> |
+| **3. Nuevo Gasto (`NewExpenseModal`)** | <img src="./docs/screenshots/03-nuevo-gasto-modal-expo.jpeg" width="240" alt="Nuevo Gasto Expo Go" /> | <img src="./docs/screenshots/03-nuevo-gasto-modal-pwa.jpg" width="240" alt="Nuevo Gasto PWA" /> |
+| **4. Detalle (`ExpenseDetailScreen`)** | <img src="./docs/screenshots/04-detalle-gasto-expo.jpeg" width="240" alt="Detalle Expo Go" /> | <img src="./docs/screenshots/04-detalle-gasto-pwa.jpg" width="240" alt="Detalle PWA" /> |
+| **5. Configuración (`SettingsScreen`)** | <img src="./docs/screenshots/05-ajustes-expo.jpeg" width="240" alt="Configuración Expo Go" /> | <img src="./docs/screenshots/05-ajustes-pwa.jpg" width="240" alt="Configuración PWA" /> |
 
 ---
 
