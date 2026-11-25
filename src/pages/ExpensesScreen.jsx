@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import MOCK_EXPENSES from '../data/mockExpenses';
+import { useExpenses } from '../context/ExpensesContext';
 import ExpenseCard from '../components/ExpenseCard';
 import NewExpenseModal from '../components/NewExpenseModal';
 import '../styles/expenses.css';
@@ -12,6 +12,7 @@ import '../styles/expenses.css';
  */
 export default function ExpensesScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { expenses } = useExpenses();
 
   return (
     <main className="expenses-screen">
@@ -26,11 +27,11 @@ export default function ExpensesScreen() {
         </button>
       </header>
 
-      {MOCK_EXPENSES.length === 0 ? (
+      {expenses.length === 0 ? (
         <p className="expenses-empty">Todavía no registraste ningún gasto.</p>
       ) : (
         <ul className="expenses-list">
-          {MOCK_EXPENSES.map((expense) => (
+          {expenses.map((expense) => (
             <li key={expense.id}>
               <ExpenseCard expense={expense} />
             </li>

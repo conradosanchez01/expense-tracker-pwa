@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useInRouterContext } from 'react-router-dom';
 import NewExpenseModal from '../components/NewExpenseModal';
-import MOCK_EXPENSES, { formatAmount } from '../data/mockExpenses';
+import { useExpenses } from '../context/ExpensesContext';
+import { formatAmount } from '../data/categories';
 import '../styles/HomeScreen.css';
 
 /**
@@ -19,12 +20,14 @@ import '../styles/HomeScreen.css';
  * - Estilos con Flexbox, min-height: 100dvh (con fallback 100vh) y safe-area-inset-top.
  */
 export default function HomeScreen({
-  expenses = MOCK_EXPENSES,
+  expenses: expensesProp,
   onOpenNewExpense,
   onNavigateExpenses,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inRouter = useInRouterContext();
+  const { expenses: contextExpenses } = useExpenses();
+  const expenses = expensesProp ?? contextExpenses;
 
   const totalAmount = expenses.reduce((acc, item) => acc + Number(item.amount || 0), 0);
   const totalMovements = expenses.length;
