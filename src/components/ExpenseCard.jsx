@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { formatAmount } from '../data/mockExpenses';
+import { formatAmount } from '../data/categories';
 import CategoryBadge from './CategoryBadge';
 import '../styles/expenses.css';
 
@@ -11,7 +11,9 @@ export default function ExpenseCard({ expense }) {
     <article className="expense-card">
       <Link to={`/expenses/${expense.id}`} className="expense-card__link">
         <div className="expense-card__info">
-          <span className="expense-card__description">{expense.description}</span>
+          <span className="expense-card__description">
+            {expense.title || expense.description || 'Gasto'}
+          </span>
           <CategoryBadge category={expense.category} />
         </div>
         <strong className="expense-card__amount">

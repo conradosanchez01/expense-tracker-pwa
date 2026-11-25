@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import MOCK_EXPENSES, { formatAmount } from '../data/mockExpenses';
+import { useExpenses } from '../context/ExpensesContext';
+import { formatAmount, formatDate } from '../data/categories';
 import CategoryBadge from '../components/CategoryBadge';
 import '../styles/expenses.css';
 
@@ -13,19 +14,13 @@ import '../styles/expenses.css';
  * ruta (/expenses/:id), así que al recargar o compartir el enlace sigue
  * funcionando (deep linking).
  */
-
-const formatDate = (isoDate) => {
-  if (!isoDate) return 'Sin fecha';
-  const [year, month, day] = isoDate.split('-');
-  return `${day}/${month}/${year}`;
-};
-
 export default function ExpenseDetailScreen() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { getExpenseById } = useExpenses();
 
-  const expense = MOCK_EXPENSES.find((item) => item.id === id);
+  const expense = getExpenseById(id);
 
   // navigate(-1) vuelve a la pantalla anterior. Si el usuario entró directo
   // por el enlace (sin historial previo dentro de la app), va al listado.
@@ -59,7 +54,9 @@ export default function ExpenseDetailScreen() {
         </button>
       </header>
 
-      <h1 className="expense-detail__title">{expense.description}</h1>
+      <h1 className="expense-detail__title">
+        {expense.title || expense.description || 'Sin título'}
+      </h1>
 
       <section className="expense-detail__card">
         <p className="expense-detail__amount">{formatAmount(expense.amount)}</p>
@@ -73,7 +70,9 @@ export default function ExpenseDetailScreen() {
 
         <div className="expense-detail__row">
           <span className="expense-detail__label">Fecha</span>
-          <p className="expense-detail__value">{formatDate(expense.date)}</p>
+          <p className="expense-detail__value">
+            {formatDate(expense.createdAt || expense.date)}
+          </p>
         </div>
 
         <div className="expense-detail__row">
