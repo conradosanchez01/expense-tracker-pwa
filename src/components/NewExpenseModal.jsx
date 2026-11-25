@@ -1,34 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useExpenses } from '../context/ExpensesContext';
+import { CATEGORIES } from '../data/categories';
 import '../styles/NewExpenseModal.css';
-
-const CATEGORIES = ['Alimentos', 'Transporte', 'Servicios', 'Salud', 'Ocio', 'Otros'];
 
 /**
  * Componente Modal de Formulario de Carga de Gastos (NewExpenseModal.jsx)
  * Equivalente a src/screens/NewExpenseModal.js del Sprint 1.
- * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #5 (#main-s2-us5)
+ * Corresponde a: User Story #2 (#pwa-s2-us2), User Story #5 (#main-s2-us5) y User Story #2 Sprint 3 (#main-s3-us2)
  * Asignado a: Benjamín
- *
- * Requerimientos cumplidos US #5:
- * - Etiqueta nativa <dialog> abierta mediante showModal() y renderizada con createPortal.
- * - Animación bottom-sheet desde la parte inferior y fondo oscurecido con ::backdrop.
- * - <input type="text"> para el nombre con su <label> asociado.
- * - <input inputMode="decimal"> para el monto que despliega el teclado numérico móvil.
- * - Selección de categoría mediante botones tipo chip.
- * - Botón "Guardar" (type="submit") y botón "Cancelar" (type="button") con tamaño táctil >= 44px.
- * - Respuesta al evento onSubmit con console.log y mensaje temporal en la interfaz.
  */
 export default function NewExpenseModal({ isOpen, onClose, onSave }) {
   const dialogRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const amountInputRef = useRef(null);
   const pressedOutsideRef = useRef(false);
+  const { addExpense } = useExpenses();
 
   const [nombre, setNombre] = useState('');
   const [monto, setMonto] = useState('');
-  const [categoria, setCategoria] = useState('');
+  const [categoria, setCategoria] = useState(CATEGORIES[0].name);
   const [descripcion, setDescripcion] = useState('');
   const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -46,10 +39,9 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
   const resetForm = () => {
     setNombre('');
     setMonto('');
-    setCategoria('');
+    setCategoria(CATEGORIES[0].name);
     setDescripcion('');
     setError('');
-    setSuccessMsg('');
   };
 
   const handleClose = () => {
@@ -70,12 +62,24 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
   };
 
   const handlePointerDown = (e) => {
+    if (
+      typeof HTMLDialogElement !== 'undefined' &&
+      'closedBy' in HTMLDialogElement.prototype
+    ) {
+      return;
+    }
     if (dialogRef.current) {
       pressedOutsideRef.current = isOutsideDialog(e, dialogRef.current);
     }
   };
 
   const handlePointerUp = (e) => {
+    if (
+      typeof HTMLDialogElement !== 'undefined' &&
+      'closedBy' in HTMLDialogElement.prototype
+    ) {
+      return;
+    }
     if (dialogRef.current && pressedOutsideRef.current && isOutsideDialog(e, dialogRef.current)) {
       handleClose();
     }
@@ -86,36 +90,39 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
     e.preventDefault();
 
     const cleanNombre = nombre.trim();
-    const numericMonto = parseFloat(String(monto).replace(',', '.'));
+    const numericMonto = Number(String(monto).trim().replace(',', '.'));
 
-    if (!cleanNombre || !monto || Number.isNaN(numericMonto) || numericMonto <= 0 || !categoria) {
-      setError('Por favor, completá el nombre, un monto válido y seleccioná una categoría.');
-      setSuccessMsg('');
+    if (!cleanNombre) {
+      setError('Por favor, ingresá un nombre para el gasto.');
+      nameInputRef.current?.focus();
+      return;
+    }
+
+    if (!String(monto).trim() || !Number.isFinite(numericMonto) || numericMonto <= 0) {
+      setError('Por favor, ingresá un monto numérico mayor a 0.');
+      amountInputRef.current?.focus();
+      return;
+    }
+
+    if (!categoria) {
+      setError('Por favor, seleccioná una categoría.');
       return;
     }
 
     setError('');
 
-    const nuevoGasto = {
-      id: String(Date.now()),
-      description: cleanNombre,
+    const newExpense = addExpense({
+      title: cleanNombre,
       amount: numericMonto,
       category: categoria,
-      date: new Date().toISOString().slice(0, 10),
       notes: descripcion.trim(),
-    };
-
-    console.log('Nuevo gasto guardado:', nuevoGasto);
+    });
 
     if (onSave) {
-      onSave(nuevoGasto);
+      onSave(newExpense);
     }
 
-    setSuccessMsg(`Gasto guardado: ${cleanNombre} - $${numericMonto}`);
-
-    setTimeout(() => {
-      handleClose();
-    }, 900);
+    handleClose();
   };
 
   if (typeof document === 'undefined') {
@@ -127,6 +134,7 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
       ref={dialogRef}
       className="new-expense-modal"
       aria-labelledby="new-expense-modal-title"
+      {...{ closedby: 'any' }}
       onClose={handleClose}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
@@ -135,9 +143,9 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
         <span className="new-expense-modal__handle" aria-hidden="true" />
 
         <header className="new-expense-modal__header">
-          <h2 id="new-expense-modal-title" className="new-expense-modal__title">
+          <h1 id="new-expense-modal-title" className="new-expense-modal__title">
             Nuevo Gasto
-          </h2>
+          </h1>
           <button
             type="button"
             className="new-expense-modal__close-btn"
@@ -151,16 +159,22 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
         <form className="new-expense-modal__form" onSubmit={handleSubmit} noValidate>
           <div className="new-expense-modal__field">
             <label htmlFor="expense-name" className="new-expense-modal__label">
-              Nombre del gasto *
+              Nombre del gasto <span aria-hidden="true">*</span>
             </label>
             <input
+              ref={nameInputRef}
               id="expense-name"
-              name="description"
+              name="title"
               type="text"
               className="new-expense-modal__input"
               placeholder="Ej. Supermercado"
               value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              onChange={(e) => {
+                setNombre(e.target.value);
+                if (error) setError('');
+              }}
+              aria-invalid={Boolean(error && !nombre.trim())}
+              aria-describedby={error ? 'new-expense-modal-error' : undefined}
               enterKeyHint="next"
               autoFocus
               required
@@ -169,9 +183,10 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
 
           <div className="new-expense-modal__field">
             <label htmlFor="expense-amount" className="new-expense-modal__label">
-              Monto *
+              Monto <span aria-hidden="true">*</span>
             </label>
             <input
+              ref={amountInputRef}
               id="expense-amount"
               name="amount"
               type="text"
@@ -179,28 +194,43 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
               className="new-expense-modal__input"
               placeholder="Ej. 1500"
               value={monto}
-              onChange={(e) => setMonto(e.target.value)}
+              onChange={(e) => {
+                setMonto(e.target.value);
+                if (error) setError('');
+              }}
+              aria-invalid={Boolean(
+                error &&
+                  (!String(monto).trim() ||
+                    !Number.isFinite(Number(String(monto).trim().replace(',', '.'))) ||
+                    Number(String(monto).trim().replace(',', '.')) <= 0)
+              )}
+              aria-describedby={error ? 'new-expense-modal-error' : undefined}
               enterKeyHint="next"
               required
             />
           </div>
 
           <fieldset className="new-expense-modal__field">
-            <legend className="new-expense-modal__label">Categoría *</legend>
+            <legend className="new-expense-modal__label">
+              Categoría <span aria-hidden="true">*</span>
+            </legend>
             <div className="new-expense-modal__chips">
               {CATEGORIES.map((cat) => {
-                const isSelected = categoria === cat;
+                const isSelected = categoria === cat.name;
                 return (
                   <button
-                    key={cat}
+                    key={cat.name}
                     type="button"
                     className={`new-expense-modal__chip ${
                       isSelected ? 'new-expense-modal__chip--selected' : ''
                     }`}
                     aria-pressed={isSelected}
-                    onClick={() => setCategoria(cat)}
+                    onClick={() => {
+                      setCategoria(cat.name);
+                      if (error) setError('');
+                    }}
                   >
-                    {cat}
+                    {cat.name}
                   </button>
                 );
               })}
@@ -209,7 +239,7 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
 
           <div className="new-expense-modal__field">
             <label htmlFor="expense-notes" className="new-expense-modal__label">
-              Descripción (Opcional)
+              Notas (Opcional)
             </label>
             <textarea
               id="expense-notes"
@@ -223,17 +253,12 @@ export default function NewExpenseModal({ isOpen, onClose, onSave }) {
           </div>
 
           {error && (
-            <p className="new-expense-modal__feedback new-expense-modal__feedback--error" role="alert">
-              {error}
-            </p>
-          )}
-
-          {successMsg && (
             <p
-              className="new-expense-modal__feedback new-expense-modal__feedback--success"
-              role="status"
+              id="new-expense-modal-error"
+              className="new-expense-modal__feedback new-expense-modal__feedback--error"
+              role="alert"
             >
-              {successMsg}
+              {error}
             </p>
           )}
 
