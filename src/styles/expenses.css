@@ -64,6 +64,46 @@
   border: 1px solid var(--color-border);
 }
 
+.btn--danger {
+  background: var(--color-danger, #C0392B);
+  color: #ffffff;
+}
+
+/* ---------- Resumen en Listado ---------- */
+.expenses-summary {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.expenses-summary__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.expenses-summary__label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.expenses-summary__value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.expenses-summary__value--highlight {
+  color: var(--color-primary);
+}
+
 /* ---------- Listado ---------- */
 .expenses-list {
   display: flex;
@@ -74,9 +114,30 @@
   list-style: none;
 }
 
-.expenses-empty {
-  padding: 24px 0;
+.expenses-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 36px 20px;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: 14px;
   text-align: center;
+}
+
+.expenses-empty {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.expenses-empty__hint {
+  margin: 0;
+  font-size: 0.9rem;
   color: var(--color-text-secondary);
 }
 
@@ -196,4 +257,69 @@
 .expense-detail__not-found p {
   margin: 0 0 16px;
   color: var(--color-text-secondary);
+}
+
+.expense-detail__actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.expense-detail__delete-btn {
+  width: 100%;
+  min-height: 48px;
+}
+
+/* ---------- Diálogo de confirmación de eliminación ---------- */
+.confirm-dialog {
+  margin: auto;
+  padding: 0;
+  width: calc(100% - 32px);
+  max-width: 400px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.confirm-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.confirm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.confirm-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 20px;
+}
+
+.confirm-dialog__title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+
+.confirm-dialog__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.confirm-dialog__btn {
+  flex: 1;
+  min-height: 48px;
 }

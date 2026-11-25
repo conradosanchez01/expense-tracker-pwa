@@ -67,6 +67,12 @@ export default function HomeScreen({
         </article>
       </section>
 
+      {totalMovements === 0 && (
+        <p className="home-screen__empty" role="status">
+          Todavía no registraste gastos
+        </p>
+      )}
+
       <section className="home-screen__actions" aria-label="Accesos rápidos">
         <button
           type="button"
