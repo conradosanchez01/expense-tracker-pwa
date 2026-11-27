@@ -152,7 +152,7 @@
 
 .expense-card:active {
   transform: scale(0.98);
-  background: #ecfdf5;
+  background: var(--color-surface-active, #ecfdf5);
 }
 
 .expense-card__link {

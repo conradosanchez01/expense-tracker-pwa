@@ -76,7 +76,7 @@ body {
 
 /* Feedback táctil al presionar (nada depende solo de :hover) */
 .bottom-nav__link:active {
-  background: #ecfdf5;
+  background: var(--color-surface-active, #ecfdf5);
 }
 
 .bottom-nav__link--active {

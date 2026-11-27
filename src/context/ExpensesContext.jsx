@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { readJSON, writeJSON } from '../utils/storage';
 
 /**
  * Contexto global de gastos (ExpensesContext.jsx)
@@ -8,8 +9,12 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
  *
  * Equivalente a ExpenseTracker/src/context/ExpensesContext.js. Centraliza el
  * estado y las operaciones sobre los gastos para que todas las pantallas lean
- * y escriban únicamente a través de useExpenses(). En US #4 se conectará a
- * localStorage y en US #5 a Cloud Firestore sin modificar las pantallas.
+ * y escriban únicamente a través de useExpenses().
+ *
+ * US #4 (#pwa-s3-us4) — Manuel / Jerónimo: los gastos se persisten en
+ * localStorage (clave @expensetracker/expenses). La lectura inicial es
+ * síncrona (inicializador perezoso de useState), por eso no hay "parpadeo" de
+ * lista vacía y los deep links /expenses/:id funcionan al recargar.
  */
 export const EXPENSES_STORAGE_KEY = '@expensetracker/expenses';
 
@@ -18,9 +23,36 @@ const ExpensesContext = createContext(null);
 const createExpenseId = () =>
   `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
+// Valida cada gasto leído: un JSON corrupto o editado a mano no debe romper la UI.
+const isValidExpense = (item) =>
+  item !== null &&
+  typeof item === 'object' &&
+  typeof item.id === 'string' &&
+  item.id.length > 0 &&
+  Number.isFinite(Number(item.amount));
+
+const loadStoredExpenses = () => {
+  const stored = readJSON(EXPENSES_STORAGE_KEY, []);
+  if (!Array.isArray(stored)) return [];
+  return stored.filter(isValidExpense).map((item) => ({
+    id: item.id,
+    title: String(item.title ?? item.description ?? '').trim(),
+    amount: Number(item.amount),
+    category: item.category || 'Otros',
+    notes: String(item.notes ?? '').trim(),
+    createdAt: item.createdAt || item.date || new Date().toISOString(),
+  }));
+};
+
 export function ExpensesProvider({ children }) {
-  const [expenses, setExpenses] = useState([]);
+  // Lectura síncrona: el primer render ya tiene los datos guardados.
+  const [expenses, setExpenses] = useState(loadStoredExpenses);
   const [isLoaded] = useState(true);
+
+  // Cada cambio en la lista se guarda en localStorage.
+  useEffect(() => {
+    writeJSON(EXPENSES_STORAGE_KEY, expenses);
+  }, [expenses]);
 
   const addExpense = useCallback((data = {}) => {
     const newExpense = {
