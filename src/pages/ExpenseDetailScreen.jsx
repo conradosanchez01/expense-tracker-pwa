@@ -19,7 +19,7 @@ export default function ExpenseDetailScreen() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { getExpenseById, removeExpense } = useExpenses();
+  const { getExpenseById, removeExpense, isLoaded } = useExpenses();
   const confirmDialogRef = useRef(null);
 
   const expense = getExpenseById(id);
@@ -56,6 +56,15 @@ export default function ExpenseDetailScreen() {
       navigate('/expenses', { replace: true });
     }
   };
+
+  // Deep link / recarga: hasta el primer snapshot de Firestore no se sabe si el gasto existe.
+  if (!expense && !isLoaded) {
+    return (
+      <main className="expense-detail" aria-busy="true">
+        <p role="status">Cargando gasto…</p>
+      </main>
+    );
+  }
 
   if (!expense) {
     return (

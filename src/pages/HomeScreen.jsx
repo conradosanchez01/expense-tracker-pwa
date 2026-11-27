@@ -26,7 +26,7 @@ export default function HomeScreen({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inRouter = useInRouterContext();
-  const { expenses: contextExpenses } = useExpenses();
+  const { expenses: contextExpenses, isLoaded } = useExpenses();
   const expenses = expensesProp ?? contextExpenses;
 
   const totalAmount = expenses.reduce((acc, item) => acc + Number(item.amount || 0), 0);
@@ -67,7 +67,7 @@ export default function HomeScreen({
         </article>
       </section>
 
-      {totalMovements === 0 && (
+      {isLoaded && totalMovements === 0 && (
         <p className="home-screen__empty" role="status">
           Todavía no registraste gastos
         </p>

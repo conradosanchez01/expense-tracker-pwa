@@ -13,7 +13,7 @@ import '../styles/expenses.css';
  */
 export default function ExpensesScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { expenses } = useExpenses();
+  const { expenses, isLoaded } = useExpenses();
 
   const totalAmount = expenses.reduce((acc, item) => acc + Number(item.amount || 0), 0);
   const totalMovements = expenses.length;
@@ -44,7 +44,9 @@ export default function ExpensesScreen() {
         </div>
       </section>
 
-      {expenses.length === 0 ? (
+      {!isLoaded ? (
+        <p className="expenses-empty" role="status">Cargando gastos…</p>
+      ) : expenses.length === 0 ? (
         <div className="expenses-empty-card" role="status">
           <p className="expenses-empty">Todavía no registraste gastos</p>
           <p className="expenses-empty__hint">
