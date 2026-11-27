@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useSettings } from '../context/SettingsContext';
 import '../styles/Settings.css';
 
 /**
  * Pantalla de Configuración (SettingsScreen.jsx)
  * Equivalente a src/screens/SettingsScreen.js del Sprint 1.
- * Corresponde a: User Story #2 (#pwa-s2-us2) y User Story #7 (#pwa-s2-us7)
- * Asignado a: Jerónimo
+ * Corresponde a: User Story #2 (#pwa-s2-us2), User Story #7 (#pwa-s2-us7) y User Story #4 Sprint 3 (#pwa-s3-us4)
+ * Asignado a: Jerónimo / Manuel
  *
- * Switch de notificaciones (<input type="checkbox" role="switch">),
- * Moneda (ARS) y Versión (1.0.0).
+ * Dos interruptores (<input type="checkbox" role="switch">): Notificaciones y
+ * Modo oscuro. Ambos viven en SettingsContext, que los persiste en
+ * localStorage (@expensetracker/settings) y aplica [data-theme="dark"] en :root.
  */
 export default function SettingsScreen() {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const { notifications, darkMode, setNotifications, setDarkMode } = useSettings();
 
   return (
     <main className="settings-screen">
@@ -29,8 +30,22 @@ export default function SettingsScreen() {
             className="switch"
             type="checkbox"
             role="switch"
-            checked={notificationsEnabled}
-            onChange={(event) => setNotificationsEnabled(event.target.checked)}
+            checked={notifications}
+            onChange={(event) => setNotifications(event.target.checked)}
+          />
+        </div>
+
+        <div className="settings-row">
+          <label className="settings-row__label" htmlFor="dark-mode-switch">
+            Modo oscuro
+          </label>
+          <input
+            id="dark-mode-switch"
+            className="switch"
+            type="checkbox"
+            role="switch"
+            checked={darkMode}
+            onChange={(event) => setDarkMode(event.target.checked)}
           />
         </div>
 
